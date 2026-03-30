@@ -1,0 +1,446 @@
+{
+  "recycleEmployees": [
+    {
+      "id": "2",
+      "name": "Amit Shah",
+      "role": "UX Designer",
+      "employeeNumber": "EMP002",
+      "joiningDate": "2025-06-10",
+      "deleteDate": "2027-05-01",
+      "avatar": "https://i.pravatar.cc/150?img=2"
+    },
+    {
+      "id": "3",
+      "name": "Neha Joshi",
+      "role": "UX Designer",
+      "employeeNumber": "EMP003",
+      "joiningDate": "2024-02-18",
+      "deleteDate": "2026-08-12",
+      "avatar": "https://i.pravatar.cc/150?img=3"
+    },
+    {
+      "id": "4",
+      "name": "Rahul Mehta",
+      "role": "UI Designer",
+      "employeeNumber": "EMP004",
+      "joiningDate": "2023-09-22",
+      "deleteDate": "2026-01-15",
+      "avatar": "https://i.pravatar.cc/150?img=4"
+    },
+    {
+      "id": "5",
+      "name": "Priya Singh",
+      "role": "UI Designer",
+      "employeeNumber": "EMP005",
+      "joiningDate": "2022-11-11",
+      "deleteDate": "2025-12-01",
+      "avatar": "https://i.pravatar.cc/150?img=5"
+    },
+    {
+      "id": "6",
+      "name": "Karan Verma",
+      "role": "UI Designer",
+      "employeeNumber": "EMP006",
+      "joiningDate": "2021-05-14",
+      "deleteDate": "2026-03-19",
+      "avatar": "https://i.pravatar.cc/150?img=6"
+    },
+    {
+      "id": "7",
+      "name": "Anjali Gupta",
+      "role": "Frontend Developer",
+      "employeeNumber": "EMP007",
+      "joiningDate": "2023-01-10",
+      "deleteDate": "2027-04-20",
+      "avatar": "https://i.pravatar.cc/150?img=7"
+    },
+    {
+      "id": "8",
+      "name": "Rohit Yadav",
+      "role": "Frontend Developer",
+      "employeeNumber": "EMP008",
+      "joiningDate": "2022-03-21",
+      "deleteDate": "2026-07-11",
+      "avatar": "https://i.pravatar.cc/150?img=8"
+    },
+    {
+      "id": "9",
+      "name": "Sneha Kulkarni",
+      "role": "Frontend Developer",
+      "employeeNumber": "EMP009",
+      "joiningDate": "2021-07-30",
+      "deleteDate": "2025-09-14",
+      "avatar": "https://i.pravatar.cc/150?img=9"
+    },
+    {
+      "id": "10",
+      "name": "Vikas Sharma",
+      "role": "Backend Developer",
+      "employeeNumber": "EMP010",
+      "joiningDate": "2020-06-12",
+      "deleteDate": "2026-02-10",
+      "avatar": "https://i.pravatar.cc/150?img=10"
+    },
+    {
+      "id": "11",
+      "name": "Pooja Nair",
+      "role": "Backend Developer",
+      "employeeNumber": "EMP011",
+      "joiningDate": "2021-08-19",
+      "deleteDate": "2027-03-25",
+      "avatar": "https://i.pravatar.cc/150?img=11"
+    },
+    {
+      "id": "12",
+      "name": "Arjun Kapoorr",
+      "role": "Backend Developer",
+      "employeeNumber": "EMP012",
+      "joiningDate": "2022-10-01",
+      "deleteDate": "2026-11-09",
+      "avatar": "https://i.pravatar.cc/150?img=12"
+    },
+    {
+      "id": "13",
+      "name": "Meera Iyer",
+      "role": "Full Stack Developer",
+      "employeeNumber": "EMP013",
+      "joiningDate": "2023-05-05",
+      "deleteDate": "2027-06-18",
+      "avatar": "https://i.pravatar.cc/150?img=13"
+    },
+    {
+      "id": "14",
+      "name": "Sahil Khan",
+      "role": "Full Stack Developer",
+      "employeeNumber": "EMP014",
+      "joiningDate": "2022-12-12",
+      "deleteDate": "2026-10-22",
+      "avatar": "https://i.pravatar.cc/150?img=14"
+    },
+    {
+      "id": "15",
+      "name": "Nikita Sharma",
+      "role": "Full Stack Developer",
+      "employeeNumber": "EMP015",
+      "joiningDate": "2021-04-17",
+      "deleteDate": "2025-12-30",
+      "avatar": "https://i.pravatar.cc/150?img=15"
+    },
+    {
+      "id": "16",
+      "name": "Deepak Jain",
+      "role": "QA Engineer",
+      "employeeNumber": "EMP016",
+      "joiningDate": "2020-09-09",
+      "deleteDate": "2026-08-01",
+      "avatar": "https://i.pravatar.cc/150?img=16"
+    },
+    {
+      "id": "17",
+      "name": "Riya Das",
+      "role": "QA Engineer",
+      "employeeNumber": "EMP017",
+      "joiningDate": "2022-01-14",
+      "deleteDate": "2027-02-28",
+      "avatar": "https://i.pravatar.cc/150?img=17"
+    },
+    {
+      "id": "18",
+      "name": "Manish Tiwari",
+      "role": "QA Engineer",
+      "employeeNumber": "EMP018",
+      "joiningDate": "2021-06-25",
+      "deleteDate": "2026-09-19",
+      "avatar": "https://i.pravatar.cc/150?img=18"
+    },
+    {
+      "id": "19",
+      "name": "Kavita Rao",
+      "role": "Project Manager",
+      "employeeNumber": "EMP019",
+      "joiningDate": "2019-03-11",
+      "deleteDate": "2026-05-15",
+      "avatar": "https://i.pravatar.cc/150?img=19"
+    },
+    {
+      "id": "20",
+      "name": "Ajay Singh",
+      "role": "Project Manager",
+      "employeeNumber": "EMP020",
+      "joiningDate": "2020-07-21",
+      "deleteDate": "2027-01-01",
+      "avatar": "https://i.pravatar.cc/150?img=20"
+    },
+    {
+      "id": "21",
+      "name": "Shreya Patel",
+      "role": "Project Manager",
+      "employeeNumber": "EMP021",
+      "joiningDate": "2021-10-10",
+      "deleteDate": "2026-04-08",
+      "avatar": "https://i.pravatar.cc/150?img=21"
+    },
+    {
+      "id": "22",
+      "name": "Gaurav Mishra",
+      "role": "HR Executive",
+      "employeeNumber": "EMP022",
+      "joiningDate": "2022-02-02",
+      "deleteDate": "2026-06-06",
+      "avatar": "https://i.pravatar.cc/150?img=22"
+    },
+    {
+      "id": "23",
+      "name": "Pallavi Roy",
+      "role": "HR Executive",
+      "employeeNumber": "EMP023",
+      "joiningDate": "2021-11-11",
+      "deleteDate": "2027-03-03",
+      "avatar": "https://i.pravatar.cc/150?img=23"
+    },
+    {
+      "id": "24",
+      "name": "Ankit Soni",
+      "role": "HR Executive",
+      "employeeNumber": "EMP024",
+      "joiningDate": "2023-07-07",
+      "deleteDate": "2026-12-12",
+      "avatar": "https://i.pravatar.cc/150?img=24"
+    },
+    {
+      "id": "25",
+      "name": "Suresh Reddy",
+      "role": "DevOps Engineer",
+      "employeeNumber": "EMP025",
+      "joiningDate": "2020-01-01",
+      "deleteDate": "2026-08-08",
+      "avatar": "https://i.pravatar.cc/150?img=25"
+    },
+    {
+      "id": "26",
+      "name": "Alok Gupta",
+      "role": "DevOps Engineer",
+      "employeeNumber": "EMP026",
+      "joiningDate": "2021-03-15",
+      "deleteDate": "2027-02-02",
+      "avatar": "https://i.pravatar.cc/150?img=26"
+    },
+    {
+      "id": "27",
+      "name": "Divya Nair",
+      "role": "DevOps Engineer",
+      "employeeNumber": "EMP027",
+      "joiningDate": "2022-05-05",
+      "deleteDate": "2026-11-11",
+      "avatar": "https://i.pravatar.cc/150?img=27"
+    },
+    {
+      "id": "28",
+      "name": "Ramesh Pillai",
+      "role": "Data Analyst",
+      "employeeNumber": "EMP028",
+      "joiningDate": "2021-09-09",
+      "deleteDate": "2026-03-03",
+      "avatar": "https://i.pravatar.cc/150?img=28"
+    },
+    {
+      "id": "29",
+      "name": "Isha Kapoor",
+      "role": "Data Analyst",
+      "employeeNumber": "EMP029",
+      "joiningDate": "2022-12-20",
+      "deleteDate": "2027-05-05",
+      "avatar": "https://i.pravatar.cc/150?img=29"
+    },
+    {
+      "id": "30",
+      "name": "Naveen Kumar",
+      "role": "Data Analyst",
+      "employeeNumber": "EMP030",
+      "joiningDate": "2023-01-01",
+      "deleteDate": "2026-09-09",
+      "avatar": "https://i.pravatar.cc/150?img=30"
+    },
+    {
+      "id": "31",
+      "name": "Tarun Bansal",
+      "role": "Business Analyst",
+      "employeeNumber": "EMP031",
+      "joiningDate": "2020-04-04",
+      "deleteDate": "2026-07-07",
+      "avatar": "https://i.pravatar.cc/150?img=31"
+    },
+    {
+      "id": "32",
+      "name": "Komal Jain",
+      "role": "Business Analyst",
+      "employeeNumber": "EMP032",
+      "joiningDate": "2021-06-06",
+      "deleteDate": "2027-01-10",
+      "avatar": "https://i.pravatar.cc/150?img=32"
+    },
+    {
+      "id": "33",
+      "name": "Yash Thakur",
+      "role": "Business Analyst",
+      "employeeNumber": "EMP033",
+      "joiningDate": "2022-08-08",
+      "deleteDate": "2026-12-12",
+      "avatar": "https://i.pravatar.cc/150?img=33"
+    },
+    {
+      "id": "34",
+      "name": "Mohit Arora",
+      "role": "Support Engineer",
+      "employeeNumber": "EMP034",
+      "joiningDate": "2021-02-02",
+      "deleteDate": "2026-05-05",
+      "avatar": "https://i.pravatar.cc/150?img=34"
+    },
+    {
+      "id": "35",
+      "name": "Simran Kaur",
+      "role": "Support Engineer",
+      "employeeNumber": "EMP035",
+      "joiningDate": "2022-04-04",
+      "deleteDate": "2027-06-06",
+      "avatar": "https://i.pravatar.cc/150?img=35"
+    },
+    {
+      "id": "36",
+      "name": "Ravi Chauhan",
+      "role": "Support Engineer",
+      "employeeNumber": "EMP036",
+      "joiningDate": "2023-03-03",
+      "deleteDate": "2026-10-10",
+      "avatar": "https://i.pravatar.cc/150?img=36"
+    },
+    {
+      "id": "37",
+      "name": "Ananya Sen",
+      "role": "Product Manager",
+      "employeeNumber": "EMP037",
+      "joiningDate": "2019-12-12",
+      "deleteDate": "2026-02-02",
+      "avatar": "https://i.pravatar.cc/150?img=37"
+    },
+    {
+      "id": "38",
+      "name": "Kunal Desai",
+      "role": "Product Manager",
+      "employeeNumber": "EMP038",
+      "joiningDate": "2020-08-08",
+      "deleteDate": "2027-01-01",
+      "avatar": "https://i.pravatar.cc/150?img=38"
+    },
+    {
+      "id": "39",
+      "name": "Ayesha Khan",
+      "role": "Product Manager",
+      "employeeNumber": "EMP039",
+      "joiningDate": "2021-11-11",
+      "deleteDate": "2026-06-06",
+      "avatar": "https://i.pravatar.cc/150?img=39"
+    },
+    {
+      "id": "40",
+      "name": "Harsh Vardhan",
+      "role": "Security Engineer",
+      "employeeNumber": "EMP040",
+      "joiningDate": "2020-10-10",
+      "deleteDate": "2026-09-09",
+      "avatar": "https://i.pravatar.cc/150?img=40"
+    },
+    {
+      "id": "41",
+      "name": "Zoya Sheikh",
+      "role": "Security Engineer",
+      "employeeNumber": "EMP041",
+      "joiningDate": "2021-01-01",
+      "deleteDate": "2027-04-04",
+      "avatar": "https://i.pravatar.cc/150?img=41"
+    },
+    {
+      "id": "42",
+      "name": "Nitin Agarwal",
+      "role": "Security Engineer",
+      "employeeNumber": "EMP042",
+      "joiningDate": "2022-02-02",
+      "deleteDate": "2026-11-11",
+      "avatar": "https://i.pravatar.cc/150?img=42"
+    },
+    {
+      "id": "43",
+      "name": "Varun Malhotra",
+      "role": "Cloud Engineer",
+      "employeeNumber": "EMP043",
+      "joiningDate": "2021-05-05",
+      "deleteDate": "2026-07-07",
+      "avatar": "https://i.pravatar.cc/150?img=43"
+    },
+    {
+      "id": "44",
+      "name": "Ritika Bose",
+      "role": "Cloud Engineer",
+      "employeeNumber": "EMP044",
+      "joiningDate": "2022-06-06",
+      "deleteDate": "2027-02-02",
+      "avatar": "https://i.pravatar.cc/150?img=44"
+    },
+    {
+      "id": "45",
+      "name": "Akash Jha",
+      "role": "Cloud Engineer",
+      "employeeNumber": "EMP045",
+      "joiningDate": "2023-07-07",
+      "deleteDate": "2026-12-12",
+      "avatar": "https://i.pravatar.cc/150?img=45"
+    },
+    {
+      "id": "46",
+      "name": "Pankaj Tripathi",
+      "role": "Database Admin",
+      "employeeNumber": "EMP046",
+      "joiningDate": "2020-03-03",
+      "deleteDate": "2026-08-08",
+      "avatar": "https://i.pravatar.cc/150?img=46"
+    },
+    {
+      "id": "47",
+      "name": "Seema Verma",
+      "role": "Database Admin",
+      "employeeNumber": "EMP047",
+      "joiningDate": "2021-04-04",
+      "deleteDate": "2027-01-01",
+      "avatar": "https://i.pravatar.cc/150?img=47"
+    },
+    {
+      "id": "48",
+      "name": "Aditya Roy",
+      "role": "Database Admin",
+      "employeeNumber": "EMP048",
+      "joiningDate": "2022-05-05",
+      "deleteDate": "2026-10-10",
+      "avatar": "https://i.pravatar.cc/150?img=48"
+    },
+    {
+      "id": "49",
+      "name": "Tanvi Kulkarni",
+      "role": "AI Engineer",
+      "employeeNumber": "EMP049",
+      "joiningDate": "2023-02-02",
+      "deleteDate": "2027-03-03",
+      "avatar": "https://i.pravatar.cc/150?img=49"
+    },
+    {
+      "id": "50",
+      "name": "Rohit Sinha",
+      "role": "AI Engineer",
+      "employeeNumber": "EMP050",
+      "joiningDate": "2022-09-09",
+      "deleteDate": "2026-11-11",
+      "avatar": "https://i.pravatar.cc/150?img=50"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
