@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import {
-  Box, Button, TextField, Typography, Alert, CircularProgress
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Alert,
+  CircularProgress,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../app/useAuth";
+import useAuth from "../../Hooks/useAuth";
 
 const PRIMARY = "#0d3b4f";
 
@@ -72,13 +77,12 @@ const SignIn = () => {
     setTimeout(() => {
       const success = signIn(email, password);
       setLoading(false);
-      if (success) navigate("/users");
+      if (success) navigate("/Dashboard");
     }, 800);
   };
 
   return (
     <Box sx={{ minHeight: "100vh", display: "flex" }}>
-
       {/* LEFT PANEL */}
       <Box
         sx={{
@@ -110,7 +114,6 @@ const SignIn = () => {
         }}
       >
         <Box sx={{ width: "100%", maxWidth: 380 }}>
-
           <Typography sx={{ fontSize: 28, fontWeight: 700, color: PRIMARY }}>
             Welcome back
           </Typography>
@@ -153,12 +156,23 @@ const SignIn = () => {
               sx={{ mb: 3, ...inputStyles }}
             />
 
-            <Button type="submit" fullWidth sx={buttonStyles} disabled={loading}>
-              {loading ? <CircularProgress size={22} sx={{ color: "#fff" }} /> : "Sign In"}
+            <Button
+              type="submit"
+              fullWidth
+              sx={buttonStyles}
+              disabled={loading}
+            >
+              {loading ? (
+                <CircularProgress size={22} sx={{ color: "#fff" }} />
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </form>
 
-          <Typography sx={{ mt: 3, textAlign: "center", color: "rgba(13,59,79,0.7)" }}>
+          <Typography
+            sx={{ mt: 3, textAlign: "center", color: "rgba(13,59,79,0.7)" }}
+          >
             Don’t have an account?{" "}
             <span
               onClick={() => navigate("/signup")}
@@ -167,7 +181,6 @@ const SignIn = () => {
               Sign up
             </span>
           </Typography>
-
         </Box>
       </Box>
     </Box>

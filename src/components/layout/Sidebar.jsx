@@ -28,25 +28,25 @@ import {
 } from "@mui/icons-material";
 
 import { NavLink, useNavigate } from "react-router-dom";
-import useAuth from "../../app/useAuth";
+import useAuth from "../../Hooks/useAuth";
 
 const drawerWidth = 240;
 const collapsedWidth = 64;
 
 const menuItems = [
-  { text: "Dashboard",    icon: <Dashboard />,   path: "/dashboard" },
-  { text: "Users",        icon: <People />,       path: "/users" },
-  { text: "Leads",        icon: <Group />,        path: "/leads" },
-  { text: "Developers",   icon: <Code />,         path: "/developers" },
-  { text: "Incentives",   icon: <Star />,         path: "/incentives" },
-  { text: "Performance",  icon: <TrendingUp />,   path: "/performance" },
-  { text: "To-do",        icon: <Task />,         path: "/todo" },
-  { text: "Approvals",    icon: <CheckCircle />,  path: "/approvals" },
-  { text: "Reports",      icon: <Assessment />,   path: "/reports" },
-  { text: "Invoice",      icon: <Receipt />,      path: "/invoice" },
-  { text: "Organization", icon: <Business />,     path: "/organization" },
-  { text: "Master",       icon: <Settings />,     path: "/master" },
-  { text: "Recycle Bin",  icon: <Delete />,       path: "/recycle-bin" },
+  { text: "Dashboard", icon: <Dashboard />, path: "/dashboard" },
+  { text: "Users", icon: <People />, path: "/users" },
+  { text: "Leads", icon: <Group />, path: "/leads" },
+  { text: "Developers", icon: <Code />, path: "/developers" },
+  { text: "Incentives", icon: <Star />, path: "/incentives" },
+  { text: "Performance", icon: <TrendingUp />, path: "/performance" },
+  { text: "To-do", icon: <Task />, path: "/todo" },
+  { text: "Approvals", icon: <CheckCircle />, path: "/approvals" },
+  { text: "Reports", icon: <Assessment />, path: "/reports" },
+  { text: "Invoice", icon: <Receipt />, path: "/invoice" },
+  { text: "Organization", icon: <Business />, path: "/organization" },
+  { text: "Master", icon: <Settings />, path: "/master" },
+  { text: "Recycle Bin", icon: <Delete />, path: "/recycle-bin" },
 ];
 
 // ✅ Scrollbar styles — paste once, reuse on any scrollable Box
@@ -92,14 +92,13 @@ export default function Sidebar({ open }) {
         "& .MuiDrawer-paper": {
           width: open ? drawerWidth : collapsedWidth,
           overflowX: "hidden",
-          overflowY: "hidden",             // ✅ paper itself doesn't scroll
+          overflowY: "hidden", // ✅ paper itself doesn't scroll
           transition: "width 0.3s ease",
           boxSizing: "border-box",
           backgroundColor: "#0d3b4f",
           color: "#fff",
           display: "flex",
           flexDirection: "column",
-        
         },
       }}
     >
@@ -110,7 +109,7 @@ export default function Sidebar({ open }) {
           display: "flex",
           alignItems: "center",
           minHeight: 64,
-          flexShrink: 0,                   // ✅ stays pinned at top
+          flexShrink: 0, // ✅ stays pinned at top
           overflow: "hidden",
           width: "50%",
         }}
@@ -163,12 +162,14 @@ export default function Sidebar({ open }) {
       </Box>
 
       {/* Logout — fixed, never scrolls */}
-      <List sx={{ p: 0, flexShrink: 0 }}>         {/* ✅ stays pinned at bottom */}
+      <List sx={{ p: 0, flexShrink: 0 }}>
+        {" "}
+        {/* ✅ stays pinned at bottom */}
         <Tooltip title={!open ? "Logout" : ""} placement="right" arrow>
           <ListItemButton
             onClick={handleLogout}
             sx={{
-              border:"fff solid 1px",
+              border: "fff solid 1px",
               justifyContent: open ? "initial" : "center",
               paddingLeft: "0px",
               paddingRight: "0px",
@@ -184,7 +185,6 @@ export default function Sidebar({ open }) {
                 mr: open ? 2 : "auto",
                 ml: open ? 2 : "auto",
                 justifyContent: "center",
-
               }}
             >
               <Logout />

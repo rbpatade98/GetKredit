@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 import {
-  Box, Button, TextField, Typography, Alert, CircularProgress
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Alert,
+  CircularProgress,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../app/useAuth";
+import useAuth from "../../Hooks/useAuth";
 
 const PRIMARY = "#0d3b4f";
 
@@ -62,7 +67,8 @@ const SignUp = () => {
     else if (password.length < 6) errs.password = "Minimum 6 characters";
 
     if (!confirmPassword) errs.confirmPassword = "Confirm your password";
-    else if (password !== confirmPassword) errs.confirmPassword = "Passwords do not match";
+    else if (password !== confirmPassword)
+      errs.confirmPassword = "Passwords do not match";
 
     setFieldErrors(errs);
     return Object.keys(errs).length === 0;
@@ -84,7 +90,6 @@ const SignUp = () => {
 
   return (
     <Box sx={{ minHeight: "100vh", display: "flex" }}>
-
       {/* LEFT PANEL */}
       <Box
         sx={{
@@ -116,7 +121,6 @@ const SignUp = () => {
         }}
       >
         <Box sx={{ width: "100%", maxWidth: 380 }}>
-
           <Typography sx={{ fontSize: 28, fontWeight: 700, color: PRIMARY }}>
             Create account
           </Typography>
@@ -173,12 +177,23 @@ const SignUp = () => {
               sx={{ mb: 3, ...inputStyles }}
             />
 
-            <Button type="submit" fullWidth sx={buttonStyles} disabled={loading}>
-              {loading ? <CircularProgress size={22} sx={{ color: "#fff" }} /> : "Create Account"}
+            <Button
+              type="submit"
+              fullWidth
+              sx={buttonStyles}
+              disabled={loading}
+            >
+              {loading ? (
+                <CircularProgress size={22} sx={{ color: "#fff" }} />
+              ) : (
+                "Create Account"
+              )}
             </Button>
           </form>
 
-          <Typography sx={{ mt: 3, textAlign: "center", color: "rgba(13,59,79,0.7)" }}>
+          <Typography
+            sx={{ mt: 3, textAlign: "center", color: "rgba(13,59,79,0.7)" }}
+          >
             Already have an account?{" "}
             <span
               onClick={() => navigate("/signin")}
@@ -187,7 +202,6 @@ const SignUp = () => {
               Sign in
             </span>
           </Typography>
-
         </Box>
       </Box>
     </Box>

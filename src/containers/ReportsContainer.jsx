@@ -3,19 +3,12 @@ import { Box, Typography, Chip, Divider, IconButton } from "@mui/material";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import SearchBar from "../components/common/SearchBar";
 import CustomDataGrid from "../components/common/CustomDataGrid";
-import ReportDetailContainer from "./ReportDetailContainer"; // ← ADD
-
-const initialReports = [
-  { id: 1, name: "Sales Report",       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-  { id: 2, name: "Leads Report",       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-  { id: 3, name: "Accounts Report",    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-  { id: 4, name: "Invoice Report",     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-  { id: 5, name: "Bank Report",        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-  { id: 6, name: "Team Performance Report", description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." },
-];
+import ReportDetailContainer from "./ReportDetailContainer";
+import { reportsMock } from "../mock/reportDetailsMock";
 
 const ReportsContainer = () => {
-  const [rows]           = useState(initialReports);
+  const [rows]           = useState(reportsMock);
+
   const [search, setSearch]               = useState("");
   const [selectedReport, setSelectedReport] = useState(null); // ← ADD
 

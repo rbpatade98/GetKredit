@@ -1,6 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { reportsMock, emptyFiltersMock } from "../mock/reportDetailsMock";
+
 import {
-  Box, Typography, Chip, Divider, Button, IconButton, Avatar, TextField
+  fetchReportDetails,
+  updateReportRow,
+  clearReportData,
+} from "../store/slices/reportDetailsSlice";
+import {
+  Box,
+  Typography,
+  Chip,
+  Divider,
+  Button,
+  IconButton,
+  Avatar,
+  TextField,
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import FilterListIcon from "@mui/icons-material/FilterList";
@@ -10,6 +25,7 @@ import CustomDataGrid from "../components/common/CustomDataGrid";
 import AppDrawer from "../components/common/AppDrawer";
 import CommonModal from "../components/common/CommonModal";
 
+/*
 const reportData = {
   1: {
     columns: [
@@ -65,7 +81,7 @@ const reportData = {
       { field: "account", headerName: "Account", flex: 1, minWidth: 150 },
       { field: "type",    headerName: "Type",    flex: 1, minWidth: 120 },
       { field: "balance", headerName: "Balance", flex: 1, minWidth: 130 },
-      { field: "date",    headerName: "Date",    flex: 1, minWidth: 130 },
+      { field: "date",    headerName: "Date",        flex: 1, minWidth: 130 },
     ],
     rows: [
       { id: 1, account: "HDFC - 001",  type: "Savings", balance: "₹1,20,000", date: "Mar 23, 2023" },
@@ -102,8 +118,6 @@ const reportData = {
   },
 };
 
-const SKIP_FIELDS = ["id", "avatar", "phone", "email"];
-
 const emptyFilters = {
   name:          "",
   creationDate:  "",
@@ -113,39 +127,79 @@ const emptyFilters = {
   region:        "",
   location:      "",
 };
+*/
+
+const SKIP_FIELDS = ["id", "avatar", "phone", "email"];
 
 export default function ReportDetailContainer({ report, onBack }) {
-  const [search, setSearch]           = useState("");
-  const [rows, setRows]               = useState(reportData[report.id]?.rows ?? []);
+  const dispatch = useDispatch();
+  const { rows, loading: reportLoading } = useSelector(
+    (state) => state.reportDetails,
+  );
+
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    if (report?.id) {
+      dispatch(fetchReportDetails(report.id));
+    }
+    // Cleanup state when component unmounts or report changes
+    return () => {
+      dispatch(clearReportData());
+    };
+  }, [dispatch, report?.id]);
 
   // Edit flow
-  const [selectedRow, setSelectedRow]         = useState(null);
-  const [editData, setEditData]               = useState({});
-  const [editDrawerOpen, setEditDrawerOpen]   = useState(false);
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [editData, setEditData] = useState({});
+  const [editDrawerOpen, setEditDrawerOpen] = useState(false);
   const [editConfirmOpen, setEditConfirmOpen] = useState(false);
 
   // Filter flow
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
-  const [filters, setFilters]                   = useState({ ...emptyFilters });
-  const [appliedFilters, setAppliedFilters]     = useState({ ...emptyFilters });
+  const [filters, setFilters] = useState({ ...emptyFiltersMock });
+  const [appliedFilters, setAppliedFilters] = useState({ ...emptyFiltersMock });
 
-  const data = reportData[report.id] ?? { columns: [], rows: [] };
+  const reportConfig = reportsMock.find((r) => r.id === report.id);
+  const data = reportConfig?.data ?? { columns: [], rows: [] };
+
 
   // ── Filter logic ─────────────────────────────────────────
   const filteredRows = rows.filter((row) => {
     const matchesSearch = Object.values(row).some((val) =>
-      String(val).toLowerCase().includes(search.toLowerCase())
+      String(val).toLowerCase().includes(search.toLowerCase()),
     );
 
     const matchesFilters =
-      (appliedFilters.name          === "" || String(row.name          ?? "").toLowerCase().includes(appliedFilters.name.toLowerCase())) &&
-      (appliedFilters.creationDate  === "" || String(row.creationDate  ?? "") === appliedFilters.creationDate) &&
-      (appliedFilters.contactPerson === "" || String(row.contactPerson ?? "").toLowerCase().includes(appliedFilters.contactPerson.toLowerCase())) &&
-      (appliedFilters.designation   === "" || String(row.designation   ?? "").toLowerCase().includes(appliedFilters.designation.toLowerCase())) &&
-      (appliedFilters.contactDetail === "" || String(row.phone ?? "").toLowerCase().includes(appliedFilters.contactDetail.toLowerCase()) ||
-                                             String(row.email ?? "").toLowerCase().includes(appliedFilters.contactDetail.toLowerCase())) &&
-      (appliedFilters.region        === "" || String(row.region        ?? "").toLowerCase().includes(appliedFilters.region.toLowerCase())) &&
-      (appliedFilters.location      === "" || String(row.location      ?? "").toLowerCase().includes(appliedFilters.location.toLowerCase()));
+      (appliedFilters.name === "" ||
+        String(row.name ?? "")
+          .toLowerCase()
+          .includes(appliedFilters.name.toLowerCase())) &&
+      (appliedFilters.creationDate === "" ||
+        String(row.creationDate ?? "") === appliedFilters.creationDate) &&
+      (appliedFilters.contactPerson === "" ||
+        String(row.contactPerson ?? "")
+          .toLowerCase()
+          .includes(appliedFilters.contactPerson.toLowerCase())) &&
+      (appliedFilters.designation === "" ||
+        String(row.designation ?? "")
+          .toLowerCase()
+          .includes(appliedFilters.designation.toLowerCase())) &&
+      (appliedFilters.contactDetail === "" ||
+        String(row.phone ?? "")
+          .toLowerCase()
+          .includes(appliedFilters.contactDetail.toLowerCase()) ||
+        String(row.email ?? "")
+          .toLowerCase()
+          .includes(appliedFilters.contactDetail.toLowerCase())) &&
+      (appliedFilters.region === "" ||
+        String(row.region ?? "")
+          .toLowerCase()
+          .includes(appliedFilters.region.toLowerCase())) &&
+      (appliedFilters.location === "" ||
+        String(row.location ?? "")
+          .toLowerCase()
+          .includes(appliedFilters.location.toLowerCase()));
 
     return matchesSearch && matchesFilters;
   });
@@ -171,13 +225,12 @@ export default function ReportDetailContainer({ report, onBack }) {
   // ── Edit: Step 3 — Confirmed → apply changes ─────────────
   const confirmEdit = () => {
     if (selectedRow) {
-      setRows((prev) =>
-        prev.map((r) => r.id === selectedRow.id ? { ...r, ...editData } : r)
-      );
+      dispatch(updateReportRow({ ...selectedRow, ...editData }));
     }
     setEditConfirmOpen(false);
     setSelectedRow(null);
   };
+
 
   // ── Filter: Apply ─────────────────────────────────────────
   const handleApplyFilters = () => {
@@ -187,13 +240,40 @@ export default function ReportDetailContainer({ report, onBack }) {
 
   // ── Filter: Clear ─────────────────────────────────────────
   const handleClearFilters = () => {
-    setFilters({ ...emptyFilters });
-    setAppliedFilters({ ...emptyFilters });
+    setFilters({ ...emptyFiltersMock });
+    setAppliedFilters({ ...emptyFiltersMock });
   };
 
   // ── Action column with Edit icon ──────────────────────────
   const columnsWithEdit = [
-    ...data.columns,
+    ...data.columns.map((col) => {
+      // Inject custom renderers that were previously in the mock file
+      if (col.field === "name" && report.id === 1) {
+        return {
+          ...col,
+          renderCell: (params) => (
+            <Box display="flex" alignItems="center" gap={1}>
+              <Avatar src={params.row.avatar} sx={{ width: 32, height: 32 }} />
+              <Typography variant="body2">{params.value}</Typography>
+            </Box>
+          ),
+        };
+      }
+      if (col.field === "contactDetails" && report.id === 1) {
+        return {
+          ...col,
+          renderCell: (params) => (
+            <Box>
+              <Typography variant="body2">{params.row.phone}</Typography>
+              <Typography variant="body2" color="text.secondary">
+                {params.row.email}
+              </Typography>
+            </Box>
+          ),
+        };
+      }
+      return col;
+    }),
     {
       field: "action",
       headerName: "Action",
@@ -204,7 +284,10 @@ export default function ReportDetailContainer({ report, onBack }) {
       renderCell: (params) => (
         <IconButton
           size="small"
-          onClick={(e) => { e.stopPropagation(); handleRowClick(params); }}
+          onClick={(e) => {
+            e.stopPropagation();
+            handleRowClick(params);
+          }}
         >
           <EditOutlinedIcon fontSize="small" />
         </IconButton>
@@ -212,9 +295,9 @@ export default function ReportDetailContainer({ report, onBack }) {
     },
   ];
 
+
   return (
     <Box backgroundColor="#ffffff" p={2} borderRadius={2} mb={3} boxShadow={1}>
-
       {/* Header */}
       <Box display="flex" alignItems="center" justifyContent="space-between">
         <Box display="flex" alignItems="center" gap={1}>
@@ -230,14 +313,24 @@ export default function ReportDetailContainer({ report, onBack }) {
         </Box>
       </Box>
 
-      <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5, ml: 4.5 }}>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{ mt: 0.5, ml: 4.5 }}
+      >
         See all the reports here regarding various categories.
       </Typography>
 
       <Divider sx={{ my: 2 }} />
 
       {/* Toolbar */}
-      <Box display="flex" alignItems="center" justifyContent="space-between" gap={2} sx={{ mb: 2 }}>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        gap={2}
+        sx={{ mb: 2 }}
+      >
         <SearchBar
           placeholder="Search"
           value={search}
@@ -249,9 +342,16 @@ export default function ReportDetailContainer({ report, onBack }) {
           startIcon={<FilterListIcon />}
           onClick={() => setFilterDrawerOpen(true)}
           sx={{
-            borderColor: "#d9e3ed", color: "#0e3945", textTransform: "none",
-            borderRadius: "8px", fontWeight: 600,
-            "&:hover": { backgroundColor: "#0e3945", color: "#fff", borderColor: "#0e3945" },
+            borderColor: "#d9e3ed",
+            color: "#0e3945",
+            textTransform: "none",
+            borderRadius: "8px",
+            fontWeight: 600,
+            "&:hover": {
+              backgroundColor: "#0e3945",
+              color: "#fff",
+              borderColor: "#0e3945",
+            },
           }}
         >
           Add Filters
@@ -265,7 +365,9 @@ export default function ReportDetailContainer({ report, onBack }) {
         pageSize={5}
         autoHeight
         disableColumnMenu
+        loading={reportLoading}
       />
+
 
       {/* ── Edit Drawer ───────────────────────────────────── */}
       <AppDrawer
@@ -280,7 +382,9 @@ export default function ReportDetailContainer({ report, onBack }) {
         primaryText="Save"
         secondaryText="Cancel"
         fields={Object.keys(editData).map((key) => ({
-          label: key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, " $1"),
+          label:
+            key.charAt(0).toUpperCase() +
+            key.slice(1).replace(/([A-Z])/g, " $1"),
           value: editData[key],
           onChange: (e) => setEditData({ ...editData, [key]: e.target.value }),
         }))}
@@ -299,13 +403,53 @@ export default function ReportDetailContainer({ report, onBack }) {
         primaryText="Apply"
         secondaryText="Clear all"
         fields={[
-          { label: "Lead Name", value: filters.name, onChange: (e) => setFilters({ ...filters, name: e.target.value }), textFieldProps: { placeholder: "Search by lead name" } },
-          { label: "Lead Creation Date", value: filters.creationDate, onChange: (e) => setFilters({ ...filters, creationDate: e.target.value }), type: "date" },
-          { label: "Contact Person", value: filters.contactPerson, onChange: (e) => setFilters({ ...filters, contactPerson: e.target.value }), textFieldProps: { placeholder: "Search by contact person" } },
-          { label: "Designation", value: filters.designation, onChange: (e) => setFilters({ ...filters, designation: e.target.value }), textFieldProps: { placeholder: "Search by designation" } },
-          { label: "Contact Details", value: filters.contactDetail, onChange: (e) => setFilters({ ...filters, contactDetail: e.target.value }), textFieldProps: { placeholder: "Search by phone or email" } },
-          { label: "Region", value: filters.region, onChange: (e) => setFilters({ ...filters, region: e.target.value }), textFieldProps: { placeholder: "Search by region" } },
-          { label: "Location", value: filters.location, onChange: (e) => setFilters({ ...filters, location: e.target.value }), textFieldProps: { placeholder: "Search by location" } },
+          {
+            label: "Lead Name",
+            value: filters.name,
+            onChange: (e) => setFilters({ ...filters, name: e.target.value }),
+            textFieldProps: { placeholder: "Search by lead name" },
+          },
+          {
+            label: "Lead Creation Date",
+            value: filters.creationDate,
+            onChange: (e) =>
+              setFilters({ ...filters, creationDate: e.target.value }),
+            type: "date",
+          },
+          {
+            label: "Contact Person",
+            value: filters.contactPerson,
+            onChange: (e) =>
+              setFilters({ ...filters, contactPerson: e.target.value }),
+            textFieldProps: { placeholder: "Search by contact person" },
+          },
+          {
+            label: "Designation",
+            value: filters.designation,
+            onChange: (e) =>
+              setFilters({ ...filters, designation: e.target.value }),
+            textFieldProps: { placeholder: "Search by designation" },
+          },
+          {
+            label: "Contact Details",
+            value: filters.contactDetail,
+            onChange: (e) =>
+              setFilters({ ...filters, contactDetail: e.target.value }),
+            textFieldProps: { placeholder: "Search by phone or email" },
+          },
+          {
+            label: "Region",
+            value: filters.region,
+            onChange: (e) => setFilters({ ...filters, region: e.target.value }),
+            textFieldProps: { placeholder: "Search by region" },
+          },
+          {
+            label: "Location",
+            value: filters.location,
+            onChange: (e) =>
+              setFilters({ ...filters, location: e.target.value }),
+            textFieldProps: { placeholder: "Search by location" },
+          },
         ]}
       />
 
