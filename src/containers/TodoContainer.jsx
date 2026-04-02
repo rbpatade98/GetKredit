@@ -1,21 +1,154 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import KPICard from "../components/common/KPICards";
-import {
-  Box,
-  Typography,
-  Chip,
-  Button,
-  TextField,
-  MenuItem,
-  Divider,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
+import Divider from "@mui/material/Divider";
+import CircularProgress from "@mui/material/CircularProgress";
+
 import FilterListIcon from "@mui/icons-material/FilterList";
 import AddIcon from "@mui/icons-material/Add";
-import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import SearchBar from "../components/common/SearchBar";
-import Calender from "../components/common/Calender";
 import AppDrawer from "../components/common/AppDrawer";
 import CommonModal from "../components/common/CommonModal";
+
+const Calender = lazy(() => import("../components/common/Calender"));
+
+// ── Mock Data ─────────────────────────────────────────────
+const MOCK_TASKS = [
+  {
+    id: 1,
+    subject: "Design new landing page",
+    notes:
+      "Create wireframes and mockups for the new product landing page. Coordinate with the marketing team for brand guidelines.",
+    startDate: "2026-04-01",
+    endDate: "2026-04-05",
+    priority: "High",
+    status: "Open",
+  },
+  {
+    id: 2,
+    subject: "Fix login bug on mobile",
+    notes:
+      "Users on iOS 17 are unable to log in via Safari. Investigate token storage issue.",
+    startDate: "2026-04-02",
+    endDate: "2026-04-03",
+    priority: "High",
+    status: "Open",
+  },
+  {
+    id: 3,
+    subject: "Write Q2 project report",
+    notes:
+      "Summarise project milestones, budget utilisation, and team performance for the Q2 stakeholder review.",
+    startDate: "2026-04-07",
+    endDate: "2026-04-10",
+    priority: "Medium",
+    status: "Open",
+  },
+  {
+    id: 4,
+    subject: "Update API documentation",
+    notes:
+      "Reflect breaking changes introduced in v2.4. Add new endpoint examples and update authentication section.",
+    startDate: "2026-04-08",
+    endDate: "2026-04-12",
+    priority: "Medium",
+    status: "Open",
+  },
+  {
+    id: 5,
+    subject: "Onboard new team member",
+    notes:
+      "Prepare access credentials, share onboarding docs, and schedule a walkthrough session.",
+    startDate: "2026-04-14",
+    endDate: "2026-04-15",
+    priority: "Low",
+    status: "Open",
+  },
+  {
+    id: 6,
+    subject: "Security audit review",
+    notes:
+      "Review findings from the external security audit and prioritise remediation tasks.",
+    startDate: "2026-04-14",
+    endDate: "2026-04-18",
+    priority: "High",
+    status: "Open",
+  },
+  {
+    id: 7,
+    subject: "Migrate DB to PostgreSQL 16",
+    notes:
+      "Plan and execute the database migration. Run regression tests post-migration.",
+    startDate: "2026-04-21",
+    endDate: "2026-04-25",
+    priority: "High",
+    status: "Open",
+  },
+  {
+    id: 8,
+    subject: "Quarterly team retrospective",
+    notes:
+      "Facilitate the retro session. Collect action items and assign owners.",
+    startDate: "2026-04-22",
+    endDate: "2026-04-22",
+    priority: "Low",
+    status: "Open",
+  },
+  {
+    id: 9,
+    subject: "Renew SSL certificates",
+    notes:
+      "Certificates for prod and staging expire on May 1. Automate renewal via Let's Encrypt.",
+    startDate: "2026-04-28",
+    endDate: "2026-04-30",
+    priority: "Medium",
+    status: "Open",
+  },
+  {
+    id: 10,
+    subject: "Code review: payment module",
+    notes:
+      "Review PRs #204 and #207 related to the new payment gateway integration.",
+    startDate: "2026-03-25",
+    endDate: "2026-03-28",
+    priority: "High",
+    status: "Closed",
+  },
+  {
+    id: 11,
+    subject: "Set up CI/CD pipeline",
+    notes:
+      "Configure GitHub Actions for automated testing and deployment to staging.",
+    startDate: "2026-03-20",
+    endDate: "2026-03-24",
+    priority: "Medium",
+    status: "Closed",
+  },
+  {
+    id: 12,
+    subject: "Submit compliance report",
+    notes: "Annual compliance report was due last week. Escalate immediately.",
+    startDate: "2026-03-10",
+    endDate: "2026-03-15",
+    priority: "High",
+    status: "Overdue",
+  },
+  {
+    id: 13,
+    subject: "Update privacy policy",
+    notes:
+      "Align policy with new data residency requirements. Legal review pending.",
+    startDate: "2026-03-18",
+    endDate: "2026-03-22",
+    priority: "Medium",
+    status: "Overdue",
+  },
+];
 
 const emptyForm = {
   subject: "",
@@ -36,15 +169,24 @@ const emptyFilters = {
 const PRIORITY_OPTIONS = ["Low", "Medium", "High"];
 const STATUS_OPTIONS = ["Open", "Closed", "Overdue"];
 
-// Priority → calendar dot color
 const PRIORITY_COLOR = {
-  High: { bg: "#184a5b", text: "#ffffff" },
-  Medium: { bg: "#1f5f75", text: "#ffffff" },
-  Low: { bg: "#2f7e9a", text: "#0f172a" },
+  High: {
+    bg: "#fee2e2",
+    text: "#dc2626",
+  },
+  Medium: {
+    bg: "#fef3c7",
+    text: "#d97706",
+  },
+  Low: {
+    bg: "#dcfce7",
+    text: "#16a34a",
+  },
 };
 
 const TodoContainer = () => {
-  const [tasks, setTasks] = useState([]);
+  // ── Initialize with mock data ─────────────────────────
+  const [tasks, setTasks] = useState(MOCK_TASKS);
   const [search, setSearch] = useState("");
 
   // Drawer
@@ -72,7 +214,9 @@ const TodoContainer = () => {
     title: task.subject,
     start: task.startDate,
     end: task.endDate,
-    color: PRIORITY_COLOR[task.priority] ?? "#3b82f6",
+    backgroundColor: PRIORITY_COLOR[task.priority]?.bg ?? "#3b82f6",
+    textColor: PRIORITY_COLOR[task.priority]?.text ?? "#ffffff",
+    borderColor: PRIORITY_COLOR[task.priority]?.text ?? "#3b82f6",
     extendedProps: {
       notes: task.notes,
       priority: task.priority,
@@ -118,7 +262,6 @@ const TodoContainer = () => {
     return errors;
   };
 
-  // Add: Step 1 — validate → close drawer → open confirm
   const handleSaveClick = () => {
     const errors = validate(formData);
     if (Object.keys(errors).length > 0) {
@@ -129,7 +272,6 @@ const TodoContainer = () => {
     setSaveConfirmOpen(true);
   };
 
-  // Add: Step 2 — confirmed → push to tasks
   const confirmSave = () => {
     setTasks((prev) => [
       ...prev,
@@ -163,7 +305,6 @@ const TodoContainer = () => {
     setDrawerType("edit");
   };
 
-  // Edit: Step 1 — validate → close drawer → open confirm
   const handleEditSave = () => {
     const errors = validate(editData);
     if (Object.keys(errors).length > 0) {
@@ -174,7 +315,6 @@ const TodoContainer = () => {
     setEditConfirmOpen(true);
   };
 
-  // Edit: Step 2 — confirmed → update task
   const confirmEdit = () => {
     setTasks((prev) =>
       prev.map((t) => (t.id === selectedTask.id ? { ...t, ...editData } : t)),
@@ -214,11 +354,19 @@ const TodoContainer = () => {
     },
   };
 
-  // ── Priority badge style ──────────────────────────────────
   const priorityStyle = {
-    Low: { backgroundColor: "#ecfdf5", color: "#16a34a" },
-    Medium: { backgroundColor: "#fff7ed", color: "#ea580c" },
-    High: { backgroundColor: "#fef2f2", color: "#dc2626" },
+    Low: {
+      backgroundColor: PRIORITY_COLOR.Low.bg,
+      color: PRIORITY_COLOR.Low.text,
+    },
+    Medium: {
+      backgroundColor: PRIORITY_COLOR.Medium.bg,
+      color: PRIORITY_COLOR.Medium.text,
+    },
+    High: {
+      backgroundColor: PRIORITY_COLOR.High.bg,
+      color: PRIORITY_COLOR.High.text,
+    },
   };
 
   return (
@@ -349,11 +497,26 @@ const TodoContainer = () => {
         </Box>
 
         {/* Calendar */}
-        <Calender
-          events={calendarEvents}
-          onDateClick={(info) => console.log("Clicked date:", info.dateStr)}
-          onEventClick={handleEventClick}
-        />
+        <Suspense
+          fallback={
+            <Box
+              sx={{
+                height: 400,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <CircularProgress />
+            </Box>
+          }
+        >
+          <Calender
+            events={calendarEvents}
+            onDateClick={(info) => console.log("Clicked date:", info.dateStr)}
+            onEventClick={handleEventClick}
+          />
+        </Suspense>
 
         {/* ── Shared Drawer ─────────────────────────────────── */}
         <AppDrawer
@@ -465,7 +628,10 @@ const TodoContainer = () => {
                       label: "Start Date",
                       value: editData.startDate,
                       onChange: (e) =>
-                        setEditData({ ...editData, startDate: e.target.value }),
+                        setEditData({
+                          ...editData,
+                          startDate: e.target.value,
+                        }),
                       type: "date",
                       error: !!editErrors.startDate,
                       helperText: editErrors.startDate,
@@ -536,7 +702,10 @@ const TodoContainer = () => {
                         label: "Start Date",
                         value: filters.startDate,
                         onChange: (e) =>
-                          setFilters({ ...filters, startDate: e.target.value }),
+                          setFilters({
+                            ...filters,
+                            startDate: e.target.value,
+                          }),
                         type: "date",
                       },
                       {
@@ -553,7 +722,6 @@ const TodoContainer = () => {
           {/* ── View Task ─────────────────────────────────── */}
           {drawerType === "view" && selectedTask && (
             <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-              {/* Subject */}
               <Box>
                 <Typography variant="caption" color="text.secondary">
                   Subject
@@ -564,7 +732,6 @@ const TodoContainer = () => {
               </Box>
               <Divider />
 
-              {/* Priority & Status */}
               <Box display="flex" gap={2}>
                 <Box flex={1}>
                   <Typography variant="caption" color="text.secondary">
@@ -602,7 +769,6 @@ const TodoContainer = () => {
               </Box>
               <Divider />
 
-              {/* Dates */}
               <Box display="flex" gap={2}>
                 <Box flex={1}>
                   <Typography variant="caption" color="text.secondary">
@@ -623,7 +789,6 @@ const TodoContainer = () => {
               </Box>
               <Divider />
 
-              {/* Notes */}
               <Box>
                 <Typography variant="caption" color="text.secondary">
                   Notes

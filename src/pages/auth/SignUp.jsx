@@ -84,7 +84,7 @@ const SignUp = () => {
     setTimeout(() => {
       const success = signUp(email, password);
       setLoading(false);
-      if (success) navigate("/users");
+      if (success) navigate("/dashboard");
     }, 800);
   };
 

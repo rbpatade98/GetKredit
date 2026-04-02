@@ -1,17 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useDeferredValue, lazy, Suspense } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  Box,
-  Chip,
-  Typography,
-  IconButton,
-  Button,
-  TextField,
-  CircularProgress,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Chip from "@mui/material/Chip";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
+import TextField from "@mui/material/TextField";
+import CircularProgress from "@mui/material/CircularProgress";
 import SearchBar from "../components/common/SearchBar";
-import CustomDataGrid from "../components/common/CustomDataGrid";
+
+const CustomDataGrid = lazy(() => import("../components/common/CustomDataGrid"));
 import CommonModal from "../components/common/CommonModal";
+
+
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import { EditOutlined } from "@mui/icons-material";
 import AppDrawer from "../components/common/AppDrawer";
@@ -78,6 +79,8 @@ const RecycleBinContainer = () => {
   const [isEditDrawerOpen, setIsEditDrawerOpen] = useState(false);
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const deferredSearch = useDeferredValue(search);
+
   const [filters, setFilters] = useState({
     roles: "",
     name: "",
@@ -85,6 +88,8 @@ const RecycleBinContainer = () => {
     joiningDate: "",
     deletedDate: "",
   });
+  const deferredFilters = useDeferredValue(filters);
+
   const [editData, setEditData] = useState({
     name: "",
     roles: "",
@@ -97,27 +102,30 @@ const RecycleBinContainer = () => {
     dispatch(fetchRecycleBinData());
   }, [dispatch]);
 
-  const filteredRows = rows.filter((row) => {
-    const matchesSearch =
-      row.name.toLowerCase().includes(search.toLowerCase()) ||
-      row.roles.toLowerCase().includes(search.toLowerCase()) ||
-      row.employeeNo.toLowerCase().includes(search.toLowerCase());
+  const filteredRows = useMemo(() => {
+    return rows.filter((row) => {
+      const matchesSearch =
+        row.name.toLowerCase().includes(deferredSearch.toLowerCase()) ||
+        row.roles.toLowerCase().includes(deferredSearch.toLowerCase()) ||
+        row.employeeNo.toLowerCase().includes(deferredSearch.toLowerCase());
 
-    const matchesFilters =
-      (filters.name === "" ||
-        row.name.toLowerCase().includes(filters.name.toLowerCase())) &&
-      (filters.roles === "" ||
-        row.roles.toLowerCase().includes(filters.roles.toLowerCase())) &&
-      (filters.employeeNo === "" ||
-        row.employeeNo
-          .toLowerCase()
-          .includes(filters.employeeNo.toLowerCase())) &&
-      (filters.joiningDate === "" ||
-        row.JoinningDate === filters.joiningDate) &&
-      (filters.deletedDate === "" || row.DeletedDate === filters.deletedDate);
+      const matchesFilters =
+        (deferredFilters.name === "" ||
+          row.name.toLowerCase().includes(deferredFilters.name.toLowerCase())) &&
+        (deferredFilters.roles === "" ||
+          row.roles.toLowerCase().includes(deferredFilters.roles.toLowerCase())) &&
+        (deferredFilters.employeeNo === "" ||
+          row.employeeNo
+            .toLowerCase()
+            .includes(deferredFilters.employeeNo.toLowerCase())) &&
+        (deferredFilters.joiningDate === "" ||
+          row.JoinningDate === deferredFilters.joiningDate) &&
+        (deferredFilters.deletedDate === "" || row.DeletedDate === deferredFilters.deletedDate);
 
-    return matchesSearch && matchesFilters;
-  });
+      return matchesSearch && matchesFilters;
+    });
+  }, [rows, deferredSearch, deferredFilters]);
+
 
   // Step 1: Open edit drawer with pre-filled data
   const handleEditClick = (row) => {
@@ -395,15 +403,18 @@ const RecycleBinContainer = () => {
         <hr />
 
         {/* Data Grid */}
-        <CustomDataGrid
-          rows={filteredRows}
-          columns={columns}
-          checkboxSelection
-          autoHeight
-          disableColumnMenu
-          sortingOrder={[]}
-          loading={loading}
-        />
+        <Suspense fallback={<Box sx={{ height: 400, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><CircularProgress /></Box>}>
+          <CustomDataGrid
+            rows={filteredRows}
+            columns={columns}
+            checkboxSelection
+            autoHeight
+            disableColumnMenu
+            sortingOrder={[]}
+            loading={loading}
+          />
+        </Suspense>
+
       </Box>
 
       {/* Edit Confirm Modal */}

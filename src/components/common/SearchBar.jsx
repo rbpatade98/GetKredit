@@ -1,13 +1,14 @@
-import React from 'react';
-import { TextField, InputAdornment } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import React from "react";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
+import SearchIcon from "@mui/icons-material/Search";
 
-const SearchBar = ({ 
-  value, 
-  onChange, 
-  placeholder = "Search", 
-  sx = { width: 600, margin: '20px' }, 
-  size = "small"  
+const SearchBar = ({
+  value,
+  onChange,
+  placeholder = "Search",
+  sx = { width: 600, margin: "20px" },
+  size = "small",
 }) => {
   return (
     <TextField
@@ -16,7 +17,6 @@ const SearchBar = ({
       onChange={onChange}
       sx={sx}
       size={size}
-      
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

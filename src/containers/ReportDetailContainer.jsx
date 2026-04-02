@@ -1,29 +1,29 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useDeferredValue, lazy, Suspense } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { reportsMock, emptyFiltersMock } from "../mock/reportDetailsMock";
-
 import {
   fetchReportDetails,
   updateReportRow,
   clearReportData,
 } from "../store/slices/reportDetailsSlice";
-import {
-  Box,
-  Typography,
-  Chip,
-  Divider,
-  Button,
-  IconButton,
-  Avatar,
-  TextField,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Chip from "@mui/material/Chip";
+import Divider from "@mui/material/Divider";
+import Button from "@mui/material/Button";
+import IconButton from "@mui/material/IconButton";
+import Avatar from "@mui/material/Avatar";
+import TextField from "@mui/material/TextField";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import SearchBar from "../components/common/SearchBar";
-import CustomDataGrid from "../components/common/CustomDataGrid";
+const CustomDataGrid = lazy(() => import("../components/common/CustomDataGrid"));
 import AppDrawer from "../components/common/AppDrawer";
 import CommonModal from "../components/common/CommonModal";
+import CircularProgress from "@mui/material/CircularProgress";
+
+
 
 /*
 const reportData = {
@@ -138,6 +138,7 @@ export default function ReportDetailContainer({ report, onBack }) {
   );
 
   const [search, setSearch] = useState("");
+  const deferredSearch = useDeferredValue(search);
 
   useEffect(() => {
     if (report?.id) {
@@ -159,50 +160,54 @@ export default function ReportDetailContainer({ report, onBack }) {
   const [filterDrawerOpen, setFilterDrawerOpen] = useState(false);
   const [filters, setFilters] = useState({ ...emptyFiltersMock });
   const [appliedFilters, setAppliedFilters] = useState({ ...emptyFiltersMock });
+  const deferredAppliedFilters = useDeferredValue(appliedFilters);
 
   const reportConfig = reportsMock.find((r) => r.id === report.id);
   const data = reportConfig?.data ?? { columns: [], rows: [] };
 
 
   // ── Filter logic ─────────────────────────────────────────
-  const filteredRows = rows.filter((row) => {
-    const matchesSearch = Object.values(row).some((val) =>
-      String(val).toLowerCase().includes(search.toLowerCase()),
-    );
+  const filteredRows = useMemo(() => {
+    return rows.filter((row) => {
+      const matchesSearch = Object.values(row).some((val) =>
+        String(val).toLowerCase().includes(deferredSearch.toLowerCase()),
+      );
 
-    const matchesFilters =
-      (appliedFilters.name === "" ||
-        String(row.name ?? "")
-          .toLowerCase()
-          .includes(appliedFilters.name.toLowerCase())) &&
-      (appliedFilters.creationDate === "" ||
-        String(row.creationDate ?? "") === appliedFilters.creationDate) &&
-      (appliedFilters.contactPerson === "" ||
-        String(row.contactPerson ?? "")
-          .toLowerCase()
-          .includes(appliedFilters.contactPerson.toLowerCase())) &&
-      (appliedFilters.designation === "" ||
-        String(row.designation ?? "")
-          .toLowerCase()
-          .includes(appliedFilters.designation.toLowerCase())) &&
-      (appliedFilters.contactDetail === "" ||
-        String(row.phone ?? "")
-          .toLowerCase()
-          .includes(appliedFilters.contactDetail.toLowerCase()) ||
-        String(row.email ?? "")
-          .toLowerCase()
-          .includes(appliedFilters.contactDetail.toLowerCase())) &&
-      (appliedFilters.region === "" ||
-        String(row.region ?? "")
-          .toLowerCase()
-          .includes(appliedFilters.region.toLowerCase())) &&
-      (appliedFilters.location === "" ||
-        String(row.location ?? "")
-          .toLowerCase()
-          .includes(appliedFilters.location.toLowerCase()));
+      const matchesFilters =
+        (deferredAppliedFilters.name === "" ||
+          String(row.name ?? "")
+            .toLowerCase()
+            .includes(deferredAppliedFilters.name.toLowerCase())) &&
+        (deferredAppliedFilters.creationDate === "" ||
+          String(row.creationDate ?? "") === deferredAppliedFilters.creationDate) &&
+        (deferredAppliedFilters.contactPerson === "" ||
+          String(row.contactPerson ?? "")
+            .toLowerCase()
+            .includes(deferredAppliedFilters.contactPerson.toLowerCase())) &&
+        (deferredAppliedFilters.designation === "" ||
+          String(row.designation ?? "")
+            .toLowerCase()
+            .includes(deferredAppliedFilters.designation.toLowerCase())) &&
+        (deferredAppliedFilters.contactDetail === "" ||
+          String(row.phone ?? "")
+            .toLowerCase()
+            .includes(deferredAppliedFilters.contactDetail.toLowerCase()) ||
+          String(row.email ?? "")
+            .toLowerCase()
+            .includes(deferredAppliedFilters.contactDetail.toLowerCase())) &&
+        (deferredAppliedFilters.region === "" ||
+          String(row.region ?? "")
+            .toLowerCase()
+            .includes(deferredAppliedFilters.region.toLowerCase())) &&
+        (deferredAppliedFilters.location === "" ||
+          String(row.location ?? "")
+            .toLowerCase()
+            .includes(deferredAppliedFilters.location.toLowerCase()));
 
-    return matchesSearch && matchesFilters;
-  });
+      return matchesSearch && matchesFilters;
+    });
+  }, [rows, deferredSearch, deferredAppliedFilters]);
+
 
   // ── Edit: Step 1 — Edit icon click → open drawer ─────────
   const handleRowClick = (params) => {
@@ -359,14 +364,17 @@ export default function ReportDetailContainer({ report, onBack }) {
       </Box>
 
       {/* Data Grid */}
-      <CustomDataGrid
-        rows={filteredRows}
-        columns={columnsWithEdit}
-        pageSize={5}
-        autoHeight
-        disableColumnMenu
-        loading={reportLoading}
-      />
+      <Suspense fallback={<Box sx={{ height: 400, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><CircularProgress /></Box>}>
+        <CustomDataGrid
+          rows={filteredRows}
+          columns={columnsWithEdit}
+          pageSize={5}
+          autoHeight
+          disableColumnMenu
+          loading={reportLoading}
+        />
+      </Suspense>
+
 
 
       {/* ── Edit Drawer ───────────────────────────────────── */}

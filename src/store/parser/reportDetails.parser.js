@@ -1,20 +1,20 @@
 // ✅ Sales Report Parser
 export const salesReportParser = (report) => {
   return {
-    id: report?.id,
-    name: report?.name,
-    description: report?.description,
-    columns: report?.data?.columns,
+    id: report?.id ?? "N/A",
+    name: report?.name ?? "N/A",
+    description: report?.description ?? "N/A",
+    columns: report?.data?.columns ?? "N/A",
     rows: report?.data?.rows?.map((row) => ({
-      id: row?.id,
-      name: row?.name,
-      creationDate: row?.creationDate,
-      contactPerson: row?.contactPerson,
-      designation: row?.designation,
-      phone: row?.phone,
-      email: row?.email,
-      region: row?.region,
-      location: row?.location,
+      id: row?.id ?? "N/A",
+      name: row?.name ?? "N/A",
+      creationDate: row?.creationDate ?? "N/A",
+      contactPerson: row?.contactPerson ?? "N/A",
+      designation: row?.designation ?? "N/A",
+      phone: row?.phone ?? "N/A",
+      email: row?.email ?? "N/A",
+      region: row?.region ?? "N/A",
+      location: row?.location ?? "N/A",
     })) || [],
   };
 };
@@ -22,16 +22,16 @@ export const salesReportParser = (report) => {
 // ✅ Leads Report Parser
 export const leadsReportParser = (report) => {
   return {
-    id: report?.id,
-    name: report?.name,
-    description: report?.description,
-    columns: report?.data?.columns,
+    id: report?.id ?? "N/A",
+    name: report?.name ?? "N/A",
+    description: report?.description ?? "N/A",
+    columns: report?.data?.columns ?? "N/A",
     rows: report?.data?.rows?.map((row) => ({
-      id: row?.id,
-      leadName: row?.leadName,
-      status: row?.status,
-      assignedTo: row?.assignedTo,
-      date: row?.date,
+      id: row?.id ?? "N/A",
+      leadName: row?.leadName ?? "N/A",
+      status: row?.status ?? "N/A",
+      assignedTo: row?.assignedTo ?? "N/A",
+      date: row?.date ?? "N/A",
     })) || [],
   };
 };
@@ -39,16 +39,16 @@ export const leadsReportParser = (report) => {
 // ✅ Accounts Report Parser
 export const accountsReportParser = (report) => {
   return {
-    id: report?.id,
-    name: report?.name,
-    description: report?.description,
-    columns: report?.data?.columns,
+    id: report?.id ?? "N/A",
+    name: report?.name ?? "N/A",
+    description: report?.description ?? "N/A",
+    columns: report?.data?.columns ?? "N/A",
     rows: report?.data?.rows?.map((row) => ({
-      id: row?.id,
-      account: row?.account,
-      type: row?.type,
-      balance: row?.balance,
-      date: row?.date,
+      id: row?.id ?? "N/A",
+      account: row?.account ?? "N/A",
+      type: row?.type ?? "N/A",
+      balance: row?.balance ?? "N/A",
+      date: row?.date ?? "N/A",
     })) || [],
   };
 };
@@ -56,17 +56,17 @@ export const accountsReportParser = (report) => {
 // ✅ Invoices Report Parser
 export const invoicesReportParser = (report) => {
   return {
-    id: report?.id,
-    name: report?.name,
-    description: report?.description,
-    columns: report?.data?.columns,
+    id: report?.id ?? "N/A",
+    name: report?.name ?? "N/A",
+    description: report?.description ?? "N/A",
+    columns: report?.data?.columns ?? "N/A",
     rows: report?.data?.rows?.map((row) => ({
-      id: row?.id,
-      invoiceNo: row?.invoiceNo,
-      client: row?.client,
-      amount: row?.amount,
-      status: row?.status,
-      date: row?.date,
+      id: row?.id ?? "N/A",
+      invoiceNo: row?.invoiceNo ?? "N/A",
+      client: row?.client ?? "N/A",
+      amount: row?.amount ?? "N/A",
+      status: row?.status ?? "N/A",
+      date: row?.date ?? "N/A",
     })) || [],
   };
 };
@@ -74,16 +74,16 @@ export const invoicesReportParser = (report) => {
 // ✅ Transactions Report Parser
 export const transactionsReportParser = (report) => {
   return {
-    id: report?.id,
-    name: report?.name,
-    description: report?.description,
-    columns: report?.data?.columns,
+    id: report?.id ?? "N/A",
+    name: report?.name ?? "N/A",
+    description: report?.description ?? "N/A",
+    columns: report?.data?.columns ?? "N/A",
     rows: report?.data?.rows?.map((row) => ({
-      id: row?.id,
-      bank: row?.bank,
-      transaction: row?.transaction,
-      amount: row?.amount,
-      date: row?.date,
+      id: row?.id ?? "N/A",
+      bank: row?.bank ?? "N/A",
+      transaction: row?.transaction ?? "N/A",
+      amount: row?.amount ?? "N/A",
+      date: row?.date ?? "N/A",
     })) || [],
   };
 };

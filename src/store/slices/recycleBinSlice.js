@@ -13,7 +13,7 @@ export const fetchRecycleBinData = createAsyncThunk(
   "recycleBin/fetchData",
   async (_, { rejectWithValue }) => {
     try {
-      await delay(800); // Simulate network latency
+      await delay(700); // Simulate network latency
       // Normally: return axios.get("/api/recycle-bin").then(res => res.data)
       return recycleBinParser(recycleBinData);
     } catch (err) {
